@@ -1,6 +1,6 @@
 # Define composite variables for resources
 module "label" {
-  source     = "git::https://github.com/cloudposse/terraform-null-label.git?ref=tags/0.2.1"
+  source     = "git::https://github.com/cloudposse/terraform-null-label.git?ref=tags/0.2.2"
   namespace  = "${var.namespace}"
   name       = "${var.name}"
   stage      = "${var.stage}"
@@ -10,18 +10,19 @@ module "label" {
 }
 
 module "subnets" {
-  source             = "git::https://github.com/cloudposse/terraform-aws-dynamic-subnets.git?ref=tags/0.2.3"
-  availability_zones = "${var.availability_zones}"
-  namespace          = "${var.namespace}"
-  name               = "${var.name}"
-  stage              = "${var.stage}"
-  region             = "${var.region}"
-  vpc_id             = "${aws_vpc.default.id}"
-  cidr_block         = "${aws_vpc.default.cidr_block}"
-  igw_id             = "${aws_internet_gateway.default.id}"
-  delimiter          = "${var.delimiter}"
-  attributes         = ["${compact(concat(var.attributes, list("subnets")))}"]
-  tags               = "${var.tags}"
+  source              = "git::https://github.com/cloudposse/terraform-aws-dynamic-subnets.git?ref=nat-gateway-flag"
+  availability_zones  = "${var.availability_zones}"
+  namespace           = "${var.namespace}"
+  name                = "${var.name}"
+  stage               = "${var.stage}"
+  region              = "${var.region}"
+  vpc_id              = "${aws_vpc.default.id}"
+  cidr_block          = "${aws_vpc.default.cidr_block}"
+  igw_id              = "${aws_internet_gateway.default.id}"
+  delimiter           = "${var.delimiter}"
+  attributes          = ["${compact(concat(var.attributes, list("subnets")))}"]
+  tags                = "${var.tags}"
+  nat_gateway_enabled = "${var.nat_gateway_enabled}"
 }
 
 resource "aws_vpc" "default" {

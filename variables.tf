@@ -42,3 +42,8 @@ variable "tags" {
   default     = {}
   description = "Additional tags (e.g. `map('BusinessUnit`,`XYZ`)"
 }
+
+variable "nat_gateway_enabled" {
+  description = "Flag to enable/disable NAT gateways"
+  default     = "true"
+}
